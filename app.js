@@ -56,11 +56,11 @@ case 'receipt':case 'past-receipt':tr('Payment Receipt Viewed');modal('Payment r
 case 'exit':modal('Leave this payment?','<p>You can return to your accounts without making another payment.</p><div class="stack">'+btn('Leave payment','abandon','danger')+btn('Keep reviewing','close','secondary')+'</div>');break;
 case 'abandon':tr('Payment Abandoned',{stage:page});close();go('home');tr('Payment Feedback Requested',{trigger:'abandon'});break;
 case 'feedback':close();tr('Payment Feedback Requested',{trigger:'manual'});toast('Opening payment feedback.');break;
-case 'payments':kind='repeat';repeatId=crypto.randomUUID();await exposure('repeat');go('payments');tr('Payments Opened');break;
-case 'history':kind='repeat';await exposure('repeat');go('history');tr('Payment History Opened');break;
+case 'payments':kind='repeat';repeatId=crypto.randomUUID();go('payments');tr('Payments Opened');break;
+case 'history':kind='repeat';go('history');tr('Payment History Opened');break;
 case 'past-payment':kind='repeat';await exposure('repeat');go('past');tr('Past Payment Viewed',{recipient_type:'Utility provider'});break;
 case 'repeat-shortcut':tr('Past Payment Viewed',{recipient_type:'Utility provider'});case 'repeat-start':kind='repeat';state.recipient='Vilnius Energy';state.amount='64.20';state.reference='Electricity November';attempt=crypto.randomUUID();completed=false;returned=false;tr('Repeat Payment Started');tr('Recipient Confirmed');await exposure('payment');go('review');tr('Payment Review Viewed');break;
-case 'repeat-help':tr('Repeat Payment Help Opened');toast('Opening repeat payment guidance.');break;
+case 'repeat-help':close();await action('past-payment');tr('Repeat Payment Help Opened');toast('Opening repeat payment guidance.');break;
 case 'all-transactions':case 'outgoing':tr('Payment History Filtered',{filter:a});toast(a==='outgoing'?'Showing outgoing payments.':'Showing all transactions.');break;
 case 'profile':go('profile');tr('Profile Viewed');break;
 case 'notifications':state.notifications=!state.notifications;tr(state.notifications?'Payment Notifications Enabled':'Payment Notifications Disabled');save();render();break;
@@ -70,7 +70,7 @@ case 'cards':modal('Your debit card','<div class="balance-card"><p class="accoun
 case 'salary':modal('Salary received','<p>€2,450.00 · 21 November 2026<br>Fictional income transaction.</p>'+btn('Close details','close','lime'));break;
 case 'settings':modal('Demo settings','<p>Explore the three stories and compare the original and improved experiences.</p><div class="stack">'+btn('Original experience','control','secondary')+btn('Improved experience','treatment','secondary')+btn('Use remote experiments','remote','secondary')+btn('Campaign to app story','campaign','outline')+btn('Open payment guide','guide','outline')+btn('Give payment feedback','feedback','outline')+btn('Open repeat payment guide','repeat-guide','outline')+btn('Reset demo session','reset','outline')+'</div><p class="small">All payments are simulated. Forced variants are for presentation and do not create experiment exposures.</p>');break;
 case 'guide':close();tr('Authorisation Help Opened',{help_context:'manual_demo'});toast('Opening payment guidance.');break;
-case 'repeat-guide':close();tr('Repeat Payment Help Opened');toast('Opening repeat payment guidance.');break;
+case 'repeat-guide':close();await action('past-payment');tr('Repeat Payment Help Opened');toast('Opening repeat payment guidance.');break;
 case 'control':location.href=location.pathname+'?variant=control';break;
 case 'treatment':location.href=location.pathname+'?variant=treatment';break;
 case 'remote':location.href=location.pathname;break;
